@@ -168,29 +168,46 @@ int main()
                 Rotate.x,
                 glm::vec3(0.0f, 1.0f, 0.0f)
         );
-        glm::mat4 Model = glm::scale(
-                glm::mat4(1.0f),
-                glm::vec3(0.1f)
-        );
-        glm::mat4 MVP = Projection * View * Model;
+
+        glm::mat4 VP = Projection * View;
 
         float r[16];
         for(int i=0; i<4; i++){
             for(int j=0; j<4; j++){
-                r[i*4+j] = MVP[i][j];
+                r[i*4+j] = VP[i][j];
             }
         }
 
-        sf::Glsl::Mat4 mvp(r);
+        sf::Glsl::Mat4 vp(r);
 
         // Transfer the transformation matrices to the shader program
-        effect.setUniform("MVP",mvp);
+        effect.setUniform("VP",vp);
 
         // Set the time in the shader program
         effect.setUniform("Time",(float) (clock.getElapsedTime().asMilliseconds() / 1000.0) );
 
-        // Draw the cube
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+        int x,y,z=0;
+        //for(; x<CellGrid.cells.size(); x++) for(; y<CellGrid.cells[x].size(); y++) for(; z<CellGrid.cells[x][y].size(); z++) {
+            glm::mat4 Model = glm::scale(
+                    glm::mat4(1.0f),
+                    glm::vec3(0.01f)
+            );
+
+            for(int i=0; i<4; i++){
+                for(int j=0; j<4; j++){
+                    r[i*4+j] = Model[i][j];
+                }
+            }
+
+            sf::Glsl::Mat4 m(r);
+
+            // Separate uniform for model which is calculated for each cell
+            effect.setUniform("M",m);
+
+            // Draw a cube
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        //}
+
 
         // Finally, display the rendered frame on screen
         window.display();

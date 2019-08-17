@@ -5,11 +5,12 @@ layout(location = 1) in vec4 color;
 
 varying vec4 vertexColor;
 varying vec3 pos;
-uniform mat4 MVP;
+uniform mat4 VP;
+uniform mat4 M;
 uniform float Time;
 
 void main(){
     pos = position;
-    gl_Position = MVP * vec4(position, 1.0f);
+    gl_Position = VP * M * vec4(position, 1.0f);
     vertexColor = color;
 }

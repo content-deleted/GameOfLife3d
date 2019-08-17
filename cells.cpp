@@ -4,10 +4,10 @@
 using namespace std;
 
 class grid {
+    public:
     // 3d grid of cells
     vector<vector<vector<int> > > cells;
 
-    public:
     // dimensions
     grid(int x = 10, int y = 10, int z = 0) {
         cells.resize(x);
