@@ -9,6 +9,8 @@
 C:/Users/Jacob/CLionProjects/GameOfLife/cells.cpp
 vector
 -
+iostream
+-
 
 C:/Users/Jacob/CLionProjects/GameOfLife/main.cpp
 SFML/Window.hpp

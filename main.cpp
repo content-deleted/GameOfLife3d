@@ -29,7 +29,7 @@ int main()
     const float winW = 800;
     const float winH = 600;
 
-    sf::Window window(sf::VideoMode(winW, winH, 32), "Shader Example",sf::Style::Default,contextSettings);
+    sf::Window window(sf::VideoMode(winW, winH, 32), "Game of Life",sf::Style::Default,contextSettings);
 
     // Make it the active window for OpenGL calls
     window.setActive();
@@ -186,11 +186,19 @@ int main()
         // Set the time in the shader program
         effect.setUniform("Time",(float) (clock.getElapsedTime().asMilliseconds() / 1000.0) );
 
-        int x,y,z=0;
-        //for(; x<CellGrid.cells.size(); x++) for(; y<CellGrid.cells[x].size(); y++) for(; z<CellGrid.cells[x][y].size(); z++) {
-            glm::mat4 Model = glm::scale(
+
+        //cout << CellGrid.cells.size()<<endl;
+        //cout << CellGrid.cells[0].size()<<endl;
+        //cout << CellGrid.cells[0][0].size()<<endl;
+        for(int x = 0; x<CellGrid.cells.size(); x++) for(int y = 0; y<CellGrid.cells[x].size(); y++) for(int z = 0; z<CellGrid.cells[x][y].size(); z++) {
+            glm::mat4 scale = glm::scale(
                     glm::mat4(1.0f),
                     glm::vec3(0.01f)
+            );
+            float fscale= 1000;
+            glm::mat4 Model = glm::translate(
+                    scale,
+                    glm::vec3( fscale *(x - CellGrid.cells.size()/2.0), fscale * (y - CellGrid.cells[x].size()/2.0), fscale * (z - CellGrid.cells[x][y].size()/2.0) )
             );
 
             for(int i=0; i<4; i++){
@@ -206,8 +214,7 @@ int main()
 
             // Draw a cube
             glDrawArrays(GL_TRIANGLES, 0, 36);
-        //}
-
+        }
 
         // Finally, display the rendered frame on screen
         window.display();

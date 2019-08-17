@@ -1,5 +1,6 @@
 // Controls the various game rules
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
@@ -9,14 +10,18 @@ class grid {
     vector<vector<vector<int> > > cells;
 
     // dimensions
-    grid(int x = 10, int y = 10, int z = 0) {
-        cells.resize(x);
-        for( auto yz : cells) {
-            yz.resize(y);
-            for( auto depth : yz) {
-                depth.resize(z);
+    grid(int sx = 5, int sy = 5, int sz = 5) {
+        cells.resize(sx);
+        for(int x = 0; x < sx; x++) {
+            cells[x].resize(sy);
+            for (int y = 0; y < sy; y++) {
+                cells[x][y].resize(sz);
             }
         }
+
+        cout<< cells.size()<< endl;
+        cout << cells[0].size()<<endl;
+        cout << cells[0][0].size()<<endl;
     }
 
     void nextGeneration () {
