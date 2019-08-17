@@ -126,6 +126,8 @@ int main()
     grid CellGrid = grid();
 
     float rot = 0;
+
+    int frame = 0;
     // Start the game loop
     while (window.isOpen())
     {
@@ -140,6 +142,10 @@ int main()
             // Escape key: exit
             if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Escape))
                 window.close();
+
+            // R key: reset
+            if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::R))
+                CellGrid = grid();
 
             // Resize event: adjust the viewport
             if (event.type == sf::Event::Resized)
@@ -193,7 +199,7 @@ int main()
                     glm::mat4(1.0f),
                     glm::vec3(0.01f)
             );
-            float fscale= 500;
+            float fscale = 100;
             glm::mat4 Model = glm::translate(
                     scale,
                     glm::vec3( fscale *(x - CellGrid.cells.size()/2.0), fscale * (y - CellGrid.cells[x].size()/2.0), fscale * (z - CellGrid.cells[x][y].size()/2.0) )
@@ -217,7 +223,10 @@ int main()
         // Display rendered frame
         window.display();
 
-        if(clock.getElapsedTime().asMilliseconds()%1000 == 0) CellGrid.nextGeneration();
+
+        if(frame % 20 == 0) CellGrid.nextGeneration();
+
+        frame++;
     }
 
     return EXIT_SUCCESS;

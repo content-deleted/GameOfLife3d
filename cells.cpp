@@ -9,8 +9,8 @@ class grid {
     // 3d grid of cells
     vector<vector<vector<int> > > cells;
 
-    // dimensions
-    grid(int sx = 5, int sy = 5, int sz = 5) {
+    // constructor gennerates a random grid based on size
+    grid(int sx = 20, int sy = 20, int sz = 20) {
         cells.resize(sx);
         for(int x = 0; x < sx; ++x) {
             cells[x].resize(sy);
@@ -21,14 +21,18 @@ class grid {
                 }
             }
         }
-
-        cout<< cells.size()<< endl;
-        cout << cells[0].size()<<endl;
-        cout << cells[0][0].size()<<endl;
     }
 
     void nextGeneration () {
         vector<vector<vector<int>>> nextcells = cells;
+
+        /*nextcells.resize(cells.size());
+        for(int x = 0; x < cells.size(); ++x) {
+            nextcells[x].resize(cells[x].size());
+            for (int y = 0; y < cells[x].size(); ++y) {
+                nextcells[x][y].resize(cells[x][y].size());
+            }
+        }*/
 
         for(int x = 0; x<cells.size(); ++x){
             for(int y = 0; y<cells[x].size(); ++y){
@@ -40,7 +44,7 @@ class grid {
                         livingNeighbors+=cells[(x+j)%cells.size()][(y+k)%cells[x].size()][(z+l)%cells[x][y].size()];
 
                     if(currentstate) //if alive
-                        nextcells[x][y][z] = (livingNeighbors < 2 || livingNeighbors > 12) ? 0 : 1;
+                        nextcells[x][y][z] = (livingNeighbors < 3 || livingNeighbors > 6) ? 0 : 1;
                     else
                         nextcells[x][y][z] = (livingNeighbors > 2 && livingNeighbors < 5) ? 1 : 0;
                 }
