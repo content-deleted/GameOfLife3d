@@ -180,22 +180,20 @@ int main()
 
         sf::Glsl::Mat4 vp(r);
 
-        // Transfer the transformation matrices to the shader program
+        // Transfer the transformation matrices to the shader
         effect.setUniform("VP",vp);
 
-        // Set the time in the shader program
+        // Set the time in the shader
         effect.setUniform("Time",(float) (clock.getElapsedTime().asMilliseconds() / 1000.0) );
 
 
-        //cout << CellGrid.cells.size()<<endl;
-        //cout << CellGrid.cells[0].size()<<endl;
-        //cout << CellGrid.cells[0][0].size()<<endl;
         for(int x = 0; x<CellGrid.cells.size(); x++) for(int y = 0; y<CellGrid.cells[x].size(); y++) for(int z = 0; z<CellGrid.cells[x][y].size(); z++) {
+            if(!CellGrid.cells[x][y][z]) continue;
             glm::mat4 scale = glm::scale(
                     glm::mat4(1.0f),
                     glm::vec3(0.01f)
             );
-            float fscale= 1000;
+            float fscale= 500;
             glm::mat4 Model = glm::translate(
                     scale,
                     glm::vec3( fscale *(x - CellGrid.cells.size()/2.0), fscale * (y - CellGrid.cells[x].size()/2.0), fscale * (z - CellGrid.cells[x][y].size()/2.0) )
@@ -216,8 +214,10 @@ int main()
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
 
-        // Finally, display the rendered frame on screen
+        // Display rendered frame
         window.display();
+
+        if(clock.getElapsedTime().asMilliseconds()%1000 == 0) CellGrid.nextGeneration();
     }
 
     return EXIT_SUCCESS;

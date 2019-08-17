@@ -12,10 +12,13 @@ class grid {
     // dimensions
     grid(int sx = 5, int sy = 5, int sz = 5) {
         cells.resize(sx);
-        for(int x = 0; x < sx; x++) {
+        for(int x = 0; x < sx; ++x) {
             cells[x].resize(sy);
-            for (int y = 0; y < sy; y++) {
+            for (int y = 0; y < sy; ++y) {
                 cells[x][y].resize(sz);
+                for (int z = 0; z < sz; ++z) {
+                    cells[x][y][z] = rand() % 2;
+                }
             }
         }
 
@@ -27,20 +30,19 @@ class grid {
     void nextGeneration () {
         vector<vector<vector<int>>> nextcells = cells;
 
-        int x,y,z=0;
-        for(; x<cells.size(); x++){
-            for(; y<cells[x].size(); y++){
-                for(; z<cells[x][y].size(); z++){
+        for(int x = 0; x<cells.size(); ++x){
+            for(int y = 0; y<cells[x].size(); ++y){
+                for(int z = 0; z<cells[x][y].size(); ++z){
                     int currentstate = cells[x][y][z];
                     int livingNeighbors = -currentstate;
 
-                    int j,k,l = -1;
-                    for(; j<=1; j++) for(; k<=1; k++) for(; l<=1; l++) livingNeighbors+=cells[(x+j)%cells.size()][(y+k)%cells[x].size()][(z+l)%cells[x][y].size()];
+                    for(int j = -1; j<=1; ++j) for(int k = -1; k<=1; k++) for(int l = -1; l<=1; l++)
+                        livingNeighbors+=cells[(x+j)%cells.size()][(y+k)%cells[x].size()][(z+l)%cells[x][y].size()];
 
                     if(currentstate) //if alive
-                        nextcells[x][y][z] = (livingNeighbors < 2 || livingNeighbors > 3) ? 0 : 1;
+                        nextcells[x][y][z] = (livingNeighbors < 2 || livingNeighbors > 12) ? 0 : 1;
                     else
-                        nextcells[x][y][z] = (livingNeighbors == 3) ? 1 : 0;
+                        nextcells[x][y][z] = (livingNeighbors > 2 && livingNeighbors < 5) ? 1 : 0;
                 }
             }
         }
