@@ -84,6 +84,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="C:/Users/Jacob/CLionProjects/GameOfLife/cells.cpp">
+			<Option target="GameOfLife"/>
+		</Unit>
 		<Unit filename="C:/Users/Jacob/CLionProjects/GameOfLife/main.cpp">
 			<Option target="GameOfLife"/>
 		</Unit>

@@ -9,6 +9,8 @@
 #include "glm/gtc/type_ptr.hpp"
 #include <iostream>
 
+#include "cells.cpp"
+
 ////////////////////////////////////////////////////////////
 ///
 /// I don't know why I bother
@@ -121,6 +123,7 @@ int main()
     }
     sf::Shader::bind(&effect);
 
+    grid CellGrid = grid();
 
     float rot = 0;
     // Start the game loop

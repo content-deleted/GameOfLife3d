@@ -122,6 +122,33 @@ GameOfLife/fast:
 	$(MAKE) -f CMakeFiles\GameOfLife.dir\build.make CMakeFiles/GameOfLife.dir/build
 .PHONY : GameOfLife/fast
 
+cells.obj: cells.cpp.obj
+
+.PHONY : cells.obj
+
+# target to build an object file
+cells.cpp.obj:
+	$(MAKE) -f CMakeFiles\GameOfLife.dir\build.make CMakeFiles/GameOfLife.dir/cells.cpp.obj
+.PHONY : cells.cpp.obj
+
+cells.i: cells.cpp.i
+
+.PHONY : cells.i
+
+# target to preprocess a source file
+cells.cpp.i:
+	$(MAKE) -f CMakeFiles\GameOfLife.dir\build.make CMakeFiles/GameOfLife.dir/cells.cpp.i
+.PHONY : cells.cpp.i
+
+cells.s: cells.cpp.s
+
+.PHONY : cells.s
+
+# target to generate assembly for a file
+cells.cpp.s:
+	$(MAKE) -f CMakeFiles\GameOfLife.dir\build.make CMakeFiles/GameOfLife.dir/cells.cpp.s
+.PHONY : cells.cpp.s
+
 main.obj: main.cpp.obj
 
 .PHONY : main.obj
@@ -158,6 +185,9 @@ help:
 	@echo ... edit_cache
 	@echo ... GameOfLife
 	@echo ... rebuild_cache
+	@echo ... cells.obj
+	@echo ... cells.i
+	@echo ... cells.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
