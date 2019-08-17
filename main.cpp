@@ -128,7 +128,7 @@ int main()
     float rot = 0;
 
     int frame = 0;
-    // Start the game loop
+    // Start render loop
     while (window.isOpen())
     {
         // Process events
@@ -194,31 +194,32 @@ int main()
 
 
         for(int x = 0; x<CellGrid.cells.size(); x++) for(int y = 0; y<CellGrid.cells[x].size(); y++) for(int z = 0; z<CellGrid.cells[x][y].size(); z++) {
-            if(!CellGrid.cells[x][y][z]) continue;
-            glm::mat4 scale = glm::scale(
-                    glm::mat4(1.0f),
-                    glm::vec3(0.01f)
-            );
-            float fscale = 100;
-            glm::mat4 Model = glm::translate(
-                    scale,
-                    glm::vec3( fscale *(x - CellGrid.cells.size()/2.0), fscale * (y - CellGrid.cells[x].size()/2.0), fscale * (z - CellGrid.cells[x][y].size()/2.0) )
-            );
+                    if(!CellGrid.cells[x][y][z]) continue;
+                    glm::mat4 scale = glm::scale(
+                            glm::mat4(1.0f),
+                            glm::vec3(0.01f)
+                    );
+                    float fscale = 100;
+                    glm::mat4 Model = glm::translate(
+                            scale,
+                            glm::vec3( fscale *(x - CellGrid.cells.size()/2.0), fscale * (y - CellGrid.cells[x].size()/2.0), fscale * (z - CellGrid.cells[x][y].size()/2.0) )
+                    );
 
-            for(int i=0; i<4; i++){
-                for(int j=0; j<4; j++){
-                    r[i*4+j] = Model[i][j];
+                    // flatten ; could be made more efficient
+                    for(int i=0; i<4; i++){
+                        for(int j=0; j<4; j++){
+                            r[i*4+j] = Model[i][j];
+                        }
+                    }
+
+                    sf::Glsl::Mat4 m(r);
+
+                    // Separate uniform for model which is calculated for each cell
+                    effect.setUniform("M",m);
+
+                    // Draw a cube
+                    glDrawArrays(GL_TRIANGLES, 0, 36);
                 }
-            }
-
-            sf::Glsl::Mat4 m(r);
-
-            // Separate uniform for model which is calculated for each cell
-            effect.setUniform("M",m);
-
-            // Draw a cube
-            glDrawArrays(GL_TRIANGLES, 0, 36);
-        }
 
         // Display rendered frame
         window.display();
@@ -230,14 +231,4 @@ int main()
     }
 
     return EXIT_SUCCESS;
-}
-
-float *flatten(glm::mat4 m){
-    float *r = new float[16];
-    for(int i=0; i<4; i++){
-        for(int j=0; j<4; j++){
-            r[i*4+j] = m[i][j];
-        }
-    }
-    return r;
 }
